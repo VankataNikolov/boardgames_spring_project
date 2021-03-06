@@ -1,5 +1,7 @@
 package softuni.boardgames.model.binding;
 
+import softuni.boardgames.model.validation.UniqueUsername;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -14,6 +16,7 @@ public class UserRegisterBindingModel {
 
     @NotBlank
     @Size(min = 4, max = 20)
+    @UniqueUsername
     public String getUsername() {
         return username;
     }
@@ -32,6 +35,8 @@ public class UserRegisterBindingModel {
         this.password = password;
     }
 
+    @NotBlank
+    @Size(min = 6, max = 20)
     public String getConfirmPassword() {
         return confirmPassword;
     }

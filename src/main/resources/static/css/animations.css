@@ -1,0 +1,25 @@
+.jumbotron-fluid .title{
+    animation: showup 4s;
+}
+
+.bi-dice-6{
+    animation: roll 0.6s;
+}
+
+@keyframes roll{
+    0% {
+        transform: translateX(-500px) rotate(0);
+    }
+    100% {
+        transform: translateX(0) rotate(720deg);
+    }
+}
+
+@keyframes showup{
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

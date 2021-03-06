@@ -26,7 +26,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests().
                 requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
-                antMatchers("/**").permitAll();
+                antMatchers("/", "/users/login", "/users/register").permitAll().
+                antMatchers("/**").authenticated().
+                and().
+                formLogin().
+                        loginPage("/users/login").
+                        defaultSuccessUrl("/home", true).
+                        failureUrl("/users/login?error=true").
+                and().
+                logout().
+                        logoutUrl("/logout").
+                        logoutSuccessUrl("/").
+                        invalidateHttpSession(true).
+                        deleteCookies("JSESSIONID");
     }
 
     @Override

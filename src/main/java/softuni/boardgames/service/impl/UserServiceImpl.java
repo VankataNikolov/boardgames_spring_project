@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import softuni.boardgames.model.entity.UserEntity;
 import softuni.boardgames.model.entity.UserRoleEntity;
 import softuni.boardgames.model.enums.UserRoleEnum;
+import softuni.boardgames.model.service.UserServiceModel;
 import softuni.boardgames.repository.UserRepository;
 import softuni.boardgames.repository.UserRoleRepository;
 import softuni.boardgames.service.UserService;
@@ -13,6 +14,7 @@ import softuni.boardgames.service.UserService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -57,6 +59,15 @@ public class UserServiceImpl implements UserService {
             userRepository.saveAll(userEntities);
         }
 
+    }
+
+    @Override
+    public UserServiceModel findUserByUsername(String username) {
+        Optional<UserEntity> byUsername = userRepository.findByUsername(username);
+        if(byUsername.isEmpty()){
+            return null;
+        }
+        return modelMapper.map(byUsername, UserServiceModel.class);
     }
 
     private static List<UserRoleEntity> setUserRolesList(UserRoleRepository userRoleRepository, UserRoleEnum userRoleEnum) {
