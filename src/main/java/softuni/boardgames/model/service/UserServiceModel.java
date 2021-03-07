@@ -21,6 +21,8 @@ public class UserServiceModel {
         this.username = username;
     }
 
+    @Size(min = 6, max = 20)
+    @Column(nullable = false)
     public String getPassword() {
         return password;
     }

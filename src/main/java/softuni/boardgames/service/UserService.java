@@ -6,4 +6,6 @@ public interface UserService {
     void seedUsers();
 
     UserServiceModel findUserByUsername(String username);
+
+    void registerAndLogin(UserServiceModel userServiceModel);
 }

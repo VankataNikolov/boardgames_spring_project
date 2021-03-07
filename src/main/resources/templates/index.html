@@ -23,8 +23,16 @@
                     <p class="text-center">What do you want to do?</p>
                     <div class="d-flex justify-content-center">
                         <a class="btn btn-secondary btn-lg mx-3" th:href="@{/}" role="button">See games</a>
-                        <a class="btn btn-secondary btn-lg mx-3" th:href="@{/users/login}" role="button">Login</a>
-                        <a class="btn btn-secondary btn-lg mx-3" th:href="@{/users/register}" role="button">Register</a>
+                        <th:block sec:authorize="not isAuthenticated()">
+                            <a class="btn btn-secondary btn-lg mx-3" th:href="@{/users/login}" role="button">Login</a>
+                            <a class="btn btn-secondary btn-lg mx-3" th:href="@{/users/register}" role="button">Register</a>
+                        </th:block>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <form th:action="@{/logout}" method="POST">
+                                <button class="btn btn-secondary btn-lg mx-3" type="submit">Logout</button>
+                            </form>
+                        </th:block>
+
                     </div>
 
                 </div>

@@ -1,6 +1,10 @@
 package softuni.boardgames.service.impl;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import softuni.boardgames.model.entity.UserEntity;
@@ -23,15 +27,18 @@ public class UserServiceImpl implements UserService {
     private final ModelMapper modelMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRoleRepository userRoleRepository;
+    private final AppUserServiceImpl appUserService;
 
     public UserServiceImpl(UserRepository userRepository,
                            ModelMapper modelMapper,
                            PasswordEncoder passwordEncoder,
-                           UserRoleRepository userRoleRepository) {
+                           UserRoleRepository userRoleRepository,
+                           AppUserServiceImpl appUserService) {
         this.userRepository = userRepository;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
         this.userRoleRepository = userRoleRepository;
+        this.appUserService = appUserService;
     }
 
     @Override
@@ -68,6 +75,27 @@ public class UserServiceImpl implements UserService {
             return null;
         }
         return modelMapper.map(byUsername, UserServiceModel.class);
+    }
+
+    @Override
+    public void registerAndLogin(UserServiceModel userServiceModel) {
+        UserEntity newUser = new UserEntity(
+                userServiceModel.getUsername(),
+                passwordEncoder.encode(userServiceModel.getPassword()),
+                setUserRolesList(userRoleRepository, UserRoleEnum.ROLE_USER),
+                LocalDateTime.now()
+        );
+        newUser = userRepository.save(newUser);
+
+        UserDetails principal = appUserService.loadUserByUsername(newUser.getUsername());
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                principal,
+                newUser.getPassword(),
+                principal.getAuthorities()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     private static List<UserRoleEntity> setUserRolesList(UserRoleRepository userRoleRepository, UserRoleEnum userRoleEnum) {
