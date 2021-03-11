@@ -22,6 +22,12 @@ public class GameEntity extends BaseEntity{
     public GameEntity() {
     }
 
+    public GameEntity(String name, String description, UserEntity addedBy) {
+        this.name = name;
+        this.description = description;
+        this.addedBy = addedBy;
+    }
+
     @Size(min = 2, max = 100)
     @Column(nullable = false, unique = true)
     public String getName() {
