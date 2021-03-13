@@ -30,6 +30,5 @@ public class DataInitialize implements CommandLineRunner {
         userRoleService.initRoles();
         categoryService.initCategories();
         userService.seedUsers();
-        gameService.seedGames();
     }
 }

@@ -22,7 +22,7 @@
                     <hr class="my-4">
                     <p class="text-center">What do you want to do?</p>
                     <div class="d-flex justify-content-center">
-                        <a class="btn btn-secondary btn-lg mx-3" th:href="@{/}" role="button">See games</a>
+                        <a class="btn btn-secondary btn-lg mx-3" th:href="@{/games/all}" role="button">See games</a>
                         <th:block sec:authorize="not isAuthenticated()">
                             <a class="btn btn-secondary btn-lg mx-3" th:href="@{/users/login}" role="button">Login</a>
                             <a class="btn btn-secondary btn-lg mx-3" th:href="@{/users/register}" role="button">Register</a>

@@ -14,6 +14,7 @@ public class GameEntity extends BaseEntity{
 
     private String name;
     private String description;
+    private String titleImgUrl;
     private List<CategoryEntity> categories;
     private LocalDateTime createdOn;
     private LocalDateTime lastEdited;
@@ -46,6 +47,16 @@ public class GameEntity extends BaseEntity{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Size(max = 255)
+    @Column(name = "title_img", nullable = false)
+    public String getTitleImgUrl() {
+        return titleImgUrl;
+    }
+
+    public void setTitleImgUrl(String titleImgUrl) {
+        this.titleImgUrl = titleImgUrl;
     }
 
     @ManyToMany(fetch = FetchType.EAGER)

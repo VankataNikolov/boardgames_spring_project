@@ -16,5 +16,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
         format_sql: true
+cloudinary:
+  cloud-name: vankata
+  api-key: 921835246866131
+  api-secret: "${CLOUDINARY_SECRET}"
 #server:
 #  port: 8080

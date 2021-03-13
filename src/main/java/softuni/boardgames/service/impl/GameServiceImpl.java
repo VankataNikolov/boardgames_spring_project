@@ -59,6 +59,7 @@ public class GameServiceImpl implements GameService {
                         forEach(gi -> {
                             GameEntity newGameEntity = new GameEntity(gi.getName(), gi.getDescription(), addedByUser);
                             newGameEntity.setCreatedOn(LocalDateTime.now());
+                            newGameEntity.setLastEdited(LocalDateTime.now());
                             List<CategoryEntity> categoryEntities = new ArrayList<>();
                             Arrays.stream(gi.getCategories())
                                     .forEach(c ->
