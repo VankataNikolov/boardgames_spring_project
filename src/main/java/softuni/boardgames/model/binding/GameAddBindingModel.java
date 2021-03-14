@@ -62,4 +62,15 @@ public class GameAddBindingModel {
     public void setPictures(List<MultipartFile> pictures) {
         this.pictures = pictures;
     }
+
+    @Override
+    public String toString() {
+        return "GameAddBindingModel{" +
+                "name='" + name + '\'' +
+                ", titleImgUrl=" + titleImgUrl +
+                ", description='" + description + '\'' +
+                ", categories=" + categories +
+                ", pictures=" + pictures +
+                '}';
+    }
 }

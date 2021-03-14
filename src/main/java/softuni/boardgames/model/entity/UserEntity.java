@@ -18,11 +18,16 @@ public class UserEntity extends BaseEntity {
     public UserEntity() {
     }
 
-    public UserEntity(String username, String password, List<UserRoleEntity> roles, LocalDateTime createdOn) {
+    public UserEntity(String username,
+                      String password,
+                      List<UserRoleEntity> roles,
+                      LocalDateTime createdOn,
+                      LocalDateTime lastEdited) {
         this.username = username;
         this.password = password;
         this.roles = roles;
         this.createdOn = createdOn;
+        this.lastEdited = lastEdited;
     }
 
     @Size(min = 4, max = 20)

@@ -1,49 +1,34 @@
-package softuni.boardgames.model.entity;
+package softuni.boardgames.model.service;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import softuni.boardgames.model.entity.CategoryEntity;
+import softuni.boardgames.model.entity.GameImagesEntity;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
-@Table(name = "games")
-public class GameEntity extends BaseEntity{
+public class GameServiceModel {
 
+    private Long id;
     private String name;
     private String description;
     private String titleImgUrl;
     private List<CategoryEntity> categories;
     private LocalDateTime createdOn;
     private LocalDateTime lastEdited;
-    private UserEntity addedBy;
+    private UserServiceModel addedBy;
     private List<GameImagesEntity> pictures;
 
-    public GameEntity() {
+    public GameServiceModel() {
     }
 
-    public GameEntity(String name,
-                      String description,
-                      String titleImgUrl,
-                      List<CategoryEntity> categories,
-                      UserEntity addedBy) {
-        this.name = name;
-        this.description = description;
-        this.titleImgUrl = titleImgUrl;
-        this.categories = categories;
-        this.addedBy = addedBy;
+    public Long getId() {
+        return id;
     }
 
-    public GameEntity(String name, String description, UserEntity addedBy) {
-        this.name = name;
-        this.description = description;
-        this.addedBy = addedBy;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @Size(min = 2, max = 100)
-    @Column(nullable = false, unique = true)
     public String getName() {
         return name;
     }
@@ -52,8 +37,6 @@ public class GameEntity extends BaseEntity{
         this.name = name;
     }
 
-    @Size(min = 10)
-    @Column(nullable = false, columnDefinition = "TEXT")
     public String getDescription() {
         return description;
     }
@@ -62,8 +45,6 @@ public class GameEntity extends BaseEntity{
         this.description = description;
     }
 
-    @Size(max = 255)
-    @Column(name = "title_img", nullable = false)
     public String getTitleImgUrl() {
         return titleImgUrl;
     }
@@ -72,8 +53,6 @@ public class GameEntity extends BaseEntity{
         this.titleImgUrl = titleImgUrl;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
     public List<CategoryEntity> getCategories() {
         return categories;
     }
@@ -82,7 +61,6 @@ public class GameEntity extends BaseEntity{
         this.categories = categories;
     }
 
-    @Column(name = "created_on")
     public LocalDateTime getCreatedOn() {
         return createdOn;
     }
@@ -91,7 +69,6 @@ public class GameEntity extends BaseEntity{
         this.createdOn = createdOn;
     }
 
-    @Column(name = "last_edited")
     public LocalDateTime getLastEdited() {
         return lastEdited;
     }
@@ -100,16 +77,14 @@ public class GameEntity extends BaseEntity{
         this.lastEdited = lastEdited;
     }
 
-    @ManyToOne
-    public UserEntity getAddedBy() {
+    public UserServiceModel getAddedBy() {
         return addedBy;
     }
 
-    public void setAddedBy(UserEntity addedBy) {
+    public void setAddedBy(UserServiceModel addedBy) {
         this.addedBy = addedBy;
     }
 
-    @OneToMany(mappedBy="game", fetch = FetchType.EAGER)
     public List<GameImagesEntity> getPictures() {
         return pictures;
     }

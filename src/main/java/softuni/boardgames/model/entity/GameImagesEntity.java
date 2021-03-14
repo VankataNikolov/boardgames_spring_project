@@ -15,6 +15,11 @@ public class GameImagesEntity extends BaseEntity{
     public GameImagesEntity() {
     }
 
+    public GameImagesEntity(String url, GameEntity game) {
+        this.url = url;
+        this.game = game;
+    }
+
     @Size(max = 255)
     public String getUrl() {
         return url;

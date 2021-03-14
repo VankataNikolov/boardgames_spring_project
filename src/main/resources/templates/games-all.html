@@ -5,6 +5,19 @@
 <head th:replace="fragments/common :: head">
 <body>
 <header th:replace="fragments/common :: header"></header>
-<h1>Games page comming soon...</h1>
+<main class="p-5 align-content-center bg-blur">
+    <div class="container d-flex">
+        <div th:each="game : ${allGames}" th:object="${game}" class="card col-2 mx-2">
+            <img class="card-img-top" th:src="*{titleImgUrl}" alt="game image">
+            <div class="card-body">
+                <h4 th:text="*{name}" class="card-title">Card title</h4>
+                <small th:each="category : *{categories}" th:text="${category.name + '  '}" class="card-subtitle mb-2 text-muted" style="font-size: 0.6rem;
+">Card subtitle</small>
+                <p th:text="*{#strings.substring(description, 0, 10) + '...'}" class="card-text">Brief content</p>
+                <a sec:authorize="hasRole('ROLE_USER')" th:href="@{games/{id}/details(id=*{id})}" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

@@ -48,18 +48,21 @@ public class UserServiceImpl implements UserService {
                             "admin",
                             passwordEncoder.encode("123456"),
                             setUserRolesList(userRoleRepository, UserRoleEnum.ROLE_ADMIN),
+                            LocalDateTime.now(),
                             LocalDateTime.now()
                     ),
                     new UserEntity(
                             "editor",
                             passwordEncoder.encode("123456"),
                             setUserRolesList(userRoleRepository, UserRoleEnum.ROLE_EDITOR),
+                            LocalDateTime.now(),
                             LocalDateTime.now()
                     ),
                     new UserEntity(
                             "user",
                             passwordEncoder.encode("123456"),
                             setUserRolesList(userRoleRepository, UserRoleEnum.ROLE_USER),
+                            LocalDateTime.now(),
                             LocalDateTime.now()
                     )
             );
@@ -74,7 +77,7 @@ public class UserServiceImpl implements UserService {
         if(byUsername.isEmpty()){
             return null;
         }
-        return modelMapper.map(byUsername, UserServiceModel.class);
+        return modelMapper.map(byUsername.get(), UserServiceModel.class);
     }
 
     @Override
@@ -83,6 +86,7 @@ public class UserServiceImpl implements UserService {
                 userServiceModel.getUsername(),
                 passwordEncoder.encode(userServiceModel.getPassword()),
                 setUserRolesList(userRoleRepository, UserRoleEnum.ROLE_USER),
+                LocalDateTime.now(),
                 LocalDateTime.now()
         );
         newUser = userRepository.save(newUser);
