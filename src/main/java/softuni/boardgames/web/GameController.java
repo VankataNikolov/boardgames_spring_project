@@ -1,5 +1,6 @@
 package softuni.boardgames.web;
 
+import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import softuni.boardgames.model.binding.GameAddBindingModel;
 import softuni.boardgames.model.entity.CategoryEntity;
 import softuni.boardgames.model.enums.GameCategoriesEnum;
 import softuni.boardgames.model.view.GameAllViewModel;
+import softuni.boardgames.model.view.GameDetailsViewModel;
 import softuni.boardgames.service.GameService;
 
 import javax.validation.Valid;
@@ -90,11 +92,25 @@ public class GameController {
     }
 
     @GetMapping("/{id}/details")
-    public String gameDetails(@PathVariable Long id, Model model){
-        gameService.getGameDetails(id);
+    public String gameDetails(@PathVariable Long id, Model model) throws NotFoundException {
+        GameDetailsViewModel gameDetails = gameService.getGameDetails(id);
 
-        //ToDo add attributes to model
+        model.addAttribute("gameDetails", gameDetails);
 
         return "games-details";
+    }
+
+    @GetMapping("/games/{id}/comments")
+    public String gameComments(@PathVariable Long id){
+
+        //ToDo logic for showing comments
+
+        return "";
+    }
+
+    @GetMapping("/games/{id}/comments/add")
+    public String commentsAdd(@PathVariable Long id, RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("gameId", id);
+        return "redirect:/comments/add";
     }
 }

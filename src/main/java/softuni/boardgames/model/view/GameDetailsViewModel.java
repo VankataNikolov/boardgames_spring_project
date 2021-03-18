@@ -9,6 +9,7 @@ public class GameDetailsViewModel {
     private Long id;
     private String name;
     private String description;
+    private String titleImgUrl;
     private List<String> categories;
     private LocalDateTime lastEdited;
     private List<String> imgUrls;
@@ -38,6 +39,14 @@ public class GameDetailsViewModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTitleImgUrl() {
+        return titleImgUrl;
+    }
+
+    public void setTitleImgUrl(String titleImgUrl) {
+        this.titleImgUrl = titleImgUrl;
     }
 
     public List<String> getCategories() {

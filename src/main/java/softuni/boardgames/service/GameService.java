@@ -1,5 +1,6 @@
 package softuni.boardgames.service;
 
+import javassist.NotFoundException;
 import softuni.boardgames.model.binding.GameAddBindingModel;
 import softuni.boardgames.model.service.GameServiceModel;
 import softuni.boardgames.model.view.GameDetailsViewModel;
@@ -15,7 +16,7 @@ public interface GameService {
 
     List<GameServiceModel> getAllGames();
 
-    GameServiceModel findGameById(Long id);
+    GameServiceModel findGameById(Long id) throws NotFoundException;
 
-    GameDetailsViewModel getGameDetails(Long id);
+    GameDetailsViewModel getGameDetails(Long id) throws NotFoundException;
 }

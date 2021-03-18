@@ -5,28 +5,39 @@
 <head th:replace="fragments/common :: head">
 <body>
 <header th:replace="fragments/common :: header"></header>
-<div class="container">
-    <div id="carouselFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="..." class="d-block w-100" alt="...">
+<div th:object="${gameDetails}" class="container d-flex flex-column align-items-center">
+        <div id="carouselExampleControls" class="carousel slide my-3" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active" >
+                    <img th:src="*{titleImgUrl}" class="d-block w-100" th:alt="${name + 'image'}">
+                </div>
+                <div th:each="img : *{imgUrls}" class="carousel-item">
+                    <img th:src="${img}" class="d-block w-100" th:alt="${name + 'image'}">
+                </div>
             </div>
-            <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-            </div>
-            <div class="carousel-item">
-                <img src="..." class="d-block w-100" alt="...">
-            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only"></span>
+            </a>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselFade"  data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselFade"  data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+
+    <div class="d-flex flex-column align-items-center p-4 game-details rounded">
+        <h2 th:text="*{name}"></h2>
+        <div>
+            <small th:each="category : *{categories}" th:text="${#strings.capitalize(#strings.toLowerCase(category)) + ' '}"></small>
+        </div>
+        <p th:text="*{description}"></p>
+        <div>
+            <a th:href="@{/games/{id}/comments(id=*{id})}" class="btn btn-warning">See thoughts</a>
+            <a th:href="@{/games/{id}/comments/add(id=*{id})}" class="btn btn-warning">ADD Comment</a>
+            <button sec:authorize="hasRole('ROLE_EDITOR')" class="btn btn-warning"><strong>EDIT</strong></button>
+        </div>
     </div>
+
 </div>
 
 </body>

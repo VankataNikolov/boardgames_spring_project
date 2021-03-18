@@ -34,6 +34,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -123,12 +124,18 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameServiceModel findGameById(Long id) {
-        return modelMapper.map(gameRepository.findById(id), GameServiceModel.class);
+    public GameServiceModel findGameById(Long id) throws NotFoundException {
+        GameEntity gameEntity = gameRepository.findById(id).orElseThrow(() -> new NotFoundException("game with id "+ id +" not found"));
+        GameServiceModel mappedGame = modelMapper.map(gameEntity, GameServiceModel.class);
+        UserEntity userEntity = userRepository.findByUsername(gameEntity.getAddedBy().getUsername()).
+                orElseThrow(() -> new NotFoundException("user not found"));
+        mappedGame.setAddedBy(modelMapper.map(userEntity, UserServiceModel.class));
+
+        return mappedGame;
     }
 
     @Override
-    public GameDetailsViewModel getGameDetails(Long id) {
+    public GameDetailsViewModel getGameDetails(Long id) throws NotFoundException {
         GameServiceModel gameByIdService = findGameById(id);
         GameDetailsViewModel gameByIdView = modelMapper.map(gameByIdService, GameDetailsViewModel.class);
 

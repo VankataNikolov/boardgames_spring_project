@@ -110,6 +110,7 @@ public class GameEntity extends BaseEntity{
     }
 
     @OneToMany(mappedBy="game", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     public List<GameImagesEntity> getPictures() {
         return pictures;
     }

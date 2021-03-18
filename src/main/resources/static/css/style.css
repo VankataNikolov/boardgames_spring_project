@@ -23,10 +23,28 @@ body {
     width: 100%;
 }
 
-.jumbotron-fluid .container{
+.jumbotron-fluid .container, .game-details{
     background-color: beige;
 }
 
 .jumbotron-fluid{
     background-color: rgba(0, 0, 0, 0);
+}
+
+.carousel .carousel-item {
+    height: 400px;
+}
+
+.carousel {
+    width: 60%;
+}
+
+.carousel-item {
+    width: 100%;
+}
+
+.carousel-item img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
 }

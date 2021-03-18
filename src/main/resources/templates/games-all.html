@@ -14,7 +14,7 @@
                 <small th:each="category : *{categories}" th:text="${category.name + '  '}" class="card-subtitle mb-2 text-muted" style="font-size: 0.6rem;
 ">Card subtitle</small>
                 <p th:text="*{#strings.substring(description, 0, 10) + '...'}" class="card-text">Brief content</p>
-                <a sec:authorize="hasRole('ROLE_USER')" th:href="@{games/{id}/details(id=*{id})}" class="btn btn-primary">Details</a>
+                <a sec:authorize="hasRole('ROLE_USER')" th:href="@{/games/{id}/details(id=*{id})}" class="btn btn-primary">Details</a>
             </div>
         </div>
     </div>
