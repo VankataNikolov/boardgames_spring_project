@@ -10,8 +10,35 @@
 <div class="bg-blur">
     <div class="d-flex justify-content-center">
         <div class="bg-green-linear mt-4 py-2 d-flex align-items-center justify-content-center rounded">
-            <form th:action="@{/comments/add}" method="POST">
-            <h1>Comming soon...</h1>
+            <form th:object="${commentAddBindingModel}" th:action="@{/comments/{id}/add(id=${gameId})}" method="POST">
+                <h3 class="text-center">Comment form</h3>
+                <div>
+                    <div class="col-auto mx-2">
+                        <label for="inputTitle" class="col-form-label">Title</label>
+                    </div>
+                    <div class="col-auto mx-2">
+                        <input th:field="*{title}" th:errorclass="is-invalid" type="text" name="title" id="inputTitle" class="form-control"
+                               aria-describedby="usernameHelpInline">
+                    </div>
+                    <div class="col-auto">
+                        <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}" id="titleError" class="text-light form-text bg-danger rounded mx-2"></small>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-auto  mx-2">
+                        <label for="inputContent" class="col-form-label">Content</label>
+                    </div>
+                    <div class="col-auto mx-2">
+                        <textarea th:field="*{content}" name="content" id="inputContent" class="form-control"
+                                  aria-describedby="passwordHelpInline"></textarea>
+                    </div>
+                    <div class="col-auto">
+                        <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-light form-text bg-danger rounded mx-2"></small>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-2">
+                    <button class="btn btn-warning btn-block w-50" type="submit">Add comment</button>
+                </div>
             </form>
         </div>
     </div>

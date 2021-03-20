@@ -100,17 +100,4 @@ public class GameController {
         return "games-details";
     }
 
-    @GetMapping("/games/{id}/comments")
-    public String gameComments(@PathVariable Long id){
-
-        //ToDo logic for showing comments
-
-        return "";
-    }
-
-    @GetMapping("/games/{id}/comments/add")
-    public String commentsAdd(@PathVariable Long id, RedirectAttributes redirectAttributes){
-        redirectAttributes.addFlashAttribute("gameId", id);
-        return "redirect:/comments/add";
-    }
 }

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common :: head">
+
+</head>
+<body>
+<header th:replace="fragments/common :: header"></header>
+<div class="bg-blur">
+    <div class="container">
+        <h2 th:text="|Your thougths about ${#strings.capitalize(name)}|">The name of the game</h2>
+        <div th:each="comment : ${comments}" th:object="${comment}" class="card">
+            <div class="card-body">
+                <h5 th:text="*{title}" class="card-title">Card title</h5>
+                <h6 th:text="*{#temporals.format(createdOn, 'dd-MM-yy')}" class="card-subtitle mb-2 text-muted">Created on</h6>
+                <p th:text="*{content}" class="card-text">Comment content</p>
+                <a sec:authorize="hasRole('ROLE_EDITOR')" th:href="@{#}" class="btn btn-primary">EDIT</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

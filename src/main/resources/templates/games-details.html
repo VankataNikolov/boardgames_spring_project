@@ -32,9 +32,9 @@
         </div>
         <p th:text="*{description}"></p>
         <div>
-            <a th:href="@{/games/{id}/comments(id=*{id})}" class="btn btn-warning">See thoughts</a>
-            <a th:href="@{/games/{id}/comments/add(id=*{id})}" class="btn btn-warning">ADD Comment</a>
-            <button sec:authorize="hasRole('ROLE_EDITOR')" class="btn btn-warning"><strong>EDIT</strong></button>
+            <a th:href="@{/comments/{id}/all(id=*{id}, name=*{name})}" class="btn btn-warning">See thoughts</a>
+            <a th:href="@{/comments/{id}/add(id=*{id})}" class="btn btn-warning">ADD Comment</a>
+            <button sec:authorize="hasRole('ROLE_EDITOR')" class="btn btn-secondary"><strong>EDIT</strong></button>
         </div>
     </div>
 
