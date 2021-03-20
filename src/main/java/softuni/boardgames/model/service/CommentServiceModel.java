@@ -4,14 +4,23 @@ import java.time.LocalDateTime;
 
 public class CommentServiceModel {
 
+    private Long id;
     private String title;
     private String content;
     private LocalDateTime createdOn;
     private LocalDateTime lastEdited;
-    private Long game;
-    private String author;
+    private Long gameId;
+    private String authorName;
 
     public CommentServiceModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -46,19 +55,19 @@ public class CommentServiceModel {
         this.lastEdited = lastEdited;
     }
 
-    public Long getGame() {
-        return game;
+    public Long getGameId() {
+        return gameId;
     }
 
-    public void setGame(Long game) {
-        this.game = game;
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 }

@@ -22,7 +22,7 @@ public class CommentAddBindingModel {
     }
 
     @NotBlank
-    @Size(min = 10)
+    @Size(min = 10, message = "text must be minimum 10 characters")
     public String getContent() {
         return content;
     }

@@ -1,6 +1,5 @@
 package softuni.boardgames.web;
 
-import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +15,7 @@ import softuni.boardgames.service.CommentService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/comments")
@@ -31,17 +31,23 @@ public class CommentController {
     }
 
     @GetMapping("/{id}/all")
-    public String gameComments(@PathVariable Long id, @RequestParam(value = "name") String name, Model model){
+    public String gameComments(@PathVariable Long id,
+                               @RequestParam(value = "name") String name,
+                               Model model,
+                               @AuthenticationPrincipal UserDetails principal){
 
-        model.addAttribute("comments", commentService.getGameComments(id));
+        List<CommentServiceModel> gameComments = commentService.getGameComments(id);
+
+        model.addAttribute("comments", gameComments);
         model.addAttribute("name", name);
+        model.addAttribute("principalUsername",principal.getUsername() );
 
         return "game-comments";
     }
 
     @GetMapping("/{id}/add")
     public String add(@PathVariable Long id, Model model){
-        if(!model.containsAttribute("commentBindingModel")){
+        if(!model.containsAttribute("commentAddBindingModel")){
             model.addAttribute("commentAddBindingModel", new CommentAddBindingModel());
         }
         model.addAttribute("gameId", id);
@@ -53,23 +59,31 @@ public class CommentController {
     public String add(@PathVariable Long id, @Valid CommentAddBindingModel commentAddBindingModel,
                       BindingResult bindingResult,
                       RedirectAttributes redirectAttributes,
-                      @AuthenticationPrincipal UserDetails principal) throws NotFoundException {
+                      @AuthenticationPrincipal UserDetails principal) {
 
         if(bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute(String.format(ValidationBinding.VALIDATION, "commentAddBindingModel"), bindingResult);
             redirectAttributes.addFlashAttribute("commentAddBindingModel", commentAddBindingModel);
 
-            return "redirect:" + id + "add";
+            return "redirect:/comments/" + id + "/add";
         }
 
         CommentServiceModel commentServiceModel = modelMapper.map(commentAddBindingModel, CommentServiceModel.class);
-        commentServiceModel.setAuthor(principal.getUsername());
-        commentServiceModel.setGame(id);
+        commentServiceModel.setAuthorName(principal.getUsername());
+        commentServiceModel.setGameId(id);
         commentServiceModel.setCreatedOn(LocalDateTime.now());
         commentServiceModel.setLastEdited(LocalDateTime.now());
 
         commentService.addComment(commentServiceModel);
 
         return "redirect:/games/" + id + "/details";
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public String deleteComment(@PathVariable Long id,
+                                @RequestParam(value = "gameId") Long gameId){
+        commentService.deleteComment(id);
+
+        return "redirect:/games/" + gameId + "/details";
     }
 }
