@@ -10,8 +10,6 @@ import java.util.List;
 
 public interface GameService {
 
-    void seedGames();
-
     void addGame(GameAddBindingModel gameAddBindingModel, String username) throws IOException;
 
     List<GameServiceModel> getAllGames();

@@ -15,10 +15,12 @@ import softuni.boardgames.repository.UserRepository;
 import softuni.boardgames.repository.UserRoleRepository;
 import softuni.boardgames.service.UserService;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -100,6 +102,29 @@ public class UserServiceImpl implements UserService {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    @Override
+    public List<UserServiceModel> getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(ue -> modelMapper.map(ue, UserServiceModel.class))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    @Override
+    public void changeRoles(String username, String userRoleName) {
+        UserEntity userEntity = userRepository.findByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("user with username " + username +" not found"));
+        UserRoleEnum userRoleEnum = UserRoleEnum.valueOf(userRoleName);
+        List<UserRoleEntity> userRoleEntities = setUserRolesList(userRoleRepository, userRoleEnum);
+        userEntity.getRoles().clear();
+        userRoleEntities
+                .forEach(ure -> userEntity.getRoles().add(ure));
+        userEntity.setLastEdited(LocalDateTime.now());
+        userRepository.save(userEntity);
+
     }
 
     private static List<UserRoleEntity> setUserRolesList(UserRoleRepository userRoleRepository, UserRoleEnum userRoleEnum) {

@@ -68,32 +68,6 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public void seedGames() {
-        if (gameRepository.count() == 0) {
-            UserEntity addedByUser = userRepository.findByUsername("admin").orElse(null);
-            try {
-                String boardgamesFile = Files.readString(Path.of(gamesFile.getURI()));
-                GameInitBindingModel[] gameInitBindingModels =
-                        gson.fromJson(boardgamesFile, GameInitBindingModel[].class);
-                Arrays.stream(gameInitBindingModels).
-                        forEach(gi -> {
-                            GameEntity newGameEntity = new GameEntity(gi.getName(), gi.getDescription(), addedByUser);
-                            newGameEntity.setCreatedOn(LocalDateTime.now());
-                            newGameEntity.setLastEdited(LocalDateTime.now());
-                            List<CategoryEntity> categoryEntities = new ArrayList<>();
-                            Arrays.stream(gi.getCategories())
-                                    .forEach(c ->
-                                        categoryEntities.add(getCategoryEntity(categoryRepository, c)));
-                            newGameEntity.setCategories(categoryEntities);
-                            gameRepository.save(newGameEntity);
-                        });
-            } catch (IOException e) {
-                throw new IllegalStateException("Cannot seed games... :(");
-            }
-        }
-    }
-
-    @Override
     public void addGame(GameAddBindingModel gameAddBindingModel, String username) throws IOException {
         String name = gameAddBindingModel.getName();
         String description = gameAddBindingModel.getDescription();

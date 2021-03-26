@@ -54,7 +54,9 @@ public class GameController {
                     return mappedGame;
                 })
                 .collect(Collectors.toList());
-
+        if(allGames.size() == 0){
+            return "index";
+        }
         allGames.get(0).getCategories()
                 .forEach(System.out::println);
         model.addAttribute("allGames", allGames);
