@@ -26,7 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests().
                 requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll().
-                antMatchers("/", "/users/login","/games/all", "/users/register").permitAll().
+                antMatchers("/", "/users/login", "/games/all", "/games/api", "/users/register").permitAll().
                 antMatchers("/games/add").hasRole("EDITOR").
                 antMatchers("/users/change-role").hasRole("ADMIN").
                 antMatchers("/**").authenticated().

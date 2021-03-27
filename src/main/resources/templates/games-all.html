@@ -6,6 +6,26 @@
 <body>
 <header th:replace="fragments/common :: header"></header>
 <main class="p-5 align-content-center bg-blur">
+    <div class="d-flex justify-content-between">
+        <form class="col-3 mb-4 d-flex align-content-center"
+              th:action="@{/games/all}" th:method="GET">
+            <div class="col-auto mx-2">
+                <select class="form-control" id="selectUsername" name="category">
+                    <option value="" disabled selected>Select category</option>
+                    <option th:each="category : ${allCategories}"
+                            th:value="${category}"
+                            th:text="${category}"></option>
+                </select>
+            </div>
+            <div class="d-flex justify-content-center mt-2">
+                <button class="btn btn-warning btn-block" type="submit">Filter</button>
+            </div>
+        </form>
+        <div sec:authorize="isAuthenticated()" class="search-container">
+            <input type="search" placeholder="search game" id="searchBar">
+        </div>
+    </div>
+
     <div class="container d-flex">
         <div th:each="game : ${allGames}" th:object="${game}" class="card col-2 mx-2">
             <img class="card-img-top" th:src="*{titleImgUrl}" alt="game image">
@@ -19,5 +39,6 @@
         </div>
     </div>
 </main>
+<script th:src="@{/js/search.js}"></script>
 </body>
 </html>

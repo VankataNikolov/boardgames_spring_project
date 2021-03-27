@@ -5,14 +5,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuni.boardgames.constants.ValidationBinding;
 import softuni.boardgames.model.binding.GameAddBindingModel;
-import softuni.boardgames.model.entity.CategoryEntity;
 import softuni.boardgames.model.enums.GameCategoriesEnum;
 import softuni.boardgames.model.view.GameAllViewModel;
 import softuni.boardgames.model.view.GameDetailsViewModel;
@@ -21,9 +17,9 @@ import softuni.boardgames.service.GameService;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/games")
@@ -40,26 +36,30 @@ public class GameController {
 
 
     @GetMapping("/all")
-    public String allGames(Model model){
+    public String allGames(@RequestParam(defaultValue = "ALL") String category, Model model){
+        List<GameAllViewModel> allGames;
 
-        List<GameAllViewModel> allGames = gameService.getAllGames()
-                .stream()
-                .map(gm -> {
-                    GameAllViewModel mappedGame = modelMapper.map(gm, GameAllViewModel.class);
-                    List<GameCategoriesEnum> categoriesEnums = gm.getCategories()
-                            .stream()
-                            .map(CategoryEntity::getName)
-                            .collect(Collectors.toList());
-                    mappedGame.setCategories(categoriesEnums);
-                    return mappedGame;
-                })
-                .collect(Collectors.toList());
-        if(allGames.size() == 0){
+        if(category.equals("ALL")) {
+            allGames = gameService.serviceModelToViewAllModel(gameService.getAllGames());
+
+        } else {
+            allGames = gameService.serviceModelToViewAllModel(gameService.findGamesByCategory(category));
+        }
+
+        if (allGames.size() == 0) {
             return "index";
         }
-        allGames.get(0).getCategories()
-                .forEach(System.out::println);
+
         model.addAttribute("allGames", allGames);
+
+        GameCategoriesEnum[] categoriesEnums = GameCategoriesEnum.values();
+        List<String> allCategories = new ArrayList<>();
+        allCategories.add("ALL");
+        for (GameCategoriesEnum categoriesEnum : categoriesEnums) {
+            allCategories.add(categoriesEnum.name());
+        }
+
+        model.addAttribute("allCategories", allCategories);
 
         return "games-all";
     }

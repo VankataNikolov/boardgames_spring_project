@@ -48,3 +48,9 @@ body {
     max-height: 100%;
     display: block;
 }
+
+.search-container ul{
+    position: absolute;
+    z-index: 2;
+    background-color: beige;
+}
