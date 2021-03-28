@@ -1,0 +1,21 @@
+spring:
+  h2:
+    console:
+      enabled=true:
+
+  jpa:
+    #For H2 Database
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+cloudinary:
+  cloud-name: az
+  api-key: 123
+  api-secret: 123
