@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common :: head">
+
+</head>
+<body>
+<header th:replace="fragments/common :: header"></header>
+<div class="container-fluid d-flex flex-column align-items-center bg-light">
+    <div>
+        <p>
+            Something went wrong...We are working on it
+        </p>
+        <p>
+            <a th:href="@{/home}">Go to home page</a>
+        </p>
+    </div>
+    <div>
+        <img th:src="@{/images/error.png}" class="img-fluid" alt="error image">
+    </div>
+</div>
+
+</body>
+</html>

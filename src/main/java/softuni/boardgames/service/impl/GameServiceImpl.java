@@ -1,10 +1,7 @@
 package softuni.boardgames.service.impl;
 
-import com.google.gson.Gson;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import softuni.boardgames.model.binding.GameAddBindingModel;

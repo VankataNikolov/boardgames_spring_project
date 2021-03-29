@@ -25,4 +25,6 @@ public interface GameService {
     List<GameServiceModel> findGamesByCategory(String category);
 
     List<GameServiceModel> entityToServiceModel(List<GameEntity> gameEntities);
+
+
 }

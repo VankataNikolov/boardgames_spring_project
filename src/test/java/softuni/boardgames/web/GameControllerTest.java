@@ -9,7 +9,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import softuni.boardgames.GameEntitiesInit;
 import softuni.boardgames.UserInit;
+import softuni.boardgames.repository.GameRepository;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -22,26 +24,37 @@ public class GameControllerTest {
 
     private MockMvc mockMvc;
     private UserInit userInit;
+    private GameEntitiesInit gameEntitiesInit;
+    private GameRepository gameRepository;
 
     @Autowired
-    public GameControllerTest(MockMvc mockMvc, UserInit userInit) {
+    public GameControllerTest(MockMvc mockMvc,
+                              UserInit userInit,
+                              GameEntitiesInit gameEntitiesInit,
+                              GameRepository gameRepository) {
         this.mockMvc = mockMvc;
         this.userInit = userInit;
+        this.gameEntitiesInit = gameEntitiesInit;
+        this.gameRepository = gameRepository;
     }
 
     @BeforeEach
     void setUp(){
+        this.gameEntitiesInit.clear();
         this.userInit.clear();
         this.init();
     }
 
     @Test
-    void allGamesShouldReturnViewModel() throws Exception {
+    void allGamesShouldReturnViewAndModel() throws Exception {
+
         mockMvc.perform(
                 MockMvcRequestBuilders.get(GAME_CONTROLLER_PREFIX + "/all")
         )
                 .andExpect(status().isOk())
-                .andExpect(view().name("index"));
+                .andExpect(model().attributeExists("allGames", "allCategories"))
+                .andExpect(view().name("games-all"));
+
     }
 
     @Test
@@ -53,7 +66,7 @@ public class GameControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "UserTest", roles = {"EDITOR"})
+    @WithMockUser(value = "UserTest", roles = {"EDITOR", "ADMIN"})
     void addShouldReturnViewAndModel() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get(GAME_CONTROLLER_PREFIX + "/add")
@@ -63,8 +76,23 @@ public class GameControllerTest {
                 .andExpect(view().name("games-add"));
     }
 
+    @Test
+    @WithMockUser(value = "UserTest", roles = {"EDITOR", "ADMIN"})
+    void detailsShouldReturnCorrectGameViewAndModel() throws Exception {
+
+        long gameId = gameRepository.findByName("GameTest1").getId();
+        mockMvc.perform(
+                MockMvcRequestBuilders.get(GAME_CONTROLLER_PREFIX + "/" + gameId + "/details")
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("gameDetails"))
+                .andExpect(view().name("games-details"));
+
+    }
+
     private void init() {
-        this.userInit.rolesInit();
-        this.userInit.userInit();
+        this.userInit.roleEntitiesInit();
+        this.userInit.userEntityInit();
+        this.gameEntitiesInit.init();
     }
 }

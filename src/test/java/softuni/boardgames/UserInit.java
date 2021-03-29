@@ -27,7 +27,7 @@ public class UserInit {
 
 
 
-    public void userInit(){
+    public void userEntityInit(){
         UserEntity userEntity = new UserEntity(
                 this.mockUserUsername,
                 this.mockUserPassword,
@@ -41,7 +41,7 @@ public class UserInit {
         userRepository.save(userEntity);
     }
 
-    public void rolesInit(){
+    public void roleEntitiesInit(){
         UserRoleEntity userRoleEntityAdmin = new UserRoleEntity(UserRoleEnum.ROLE_ADMIN, "admin");
         userRoleRepository.save(userRoleEntityAdmin);
 

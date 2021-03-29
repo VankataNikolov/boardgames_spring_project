@@ -11,4 +11,6 @@ import java.util.List;
 public interface GameRepository extends JpaRepository<GameEntity, Long> {
 
     List<GameEntity> findAllByCategoriesContains(CategoryEntity categoryEntity);
+
+    GameEntity findByName(String name);
 }

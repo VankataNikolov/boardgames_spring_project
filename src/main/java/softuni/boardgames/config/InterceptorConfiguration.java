@@ -6,11 +6,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import softuni.boardgames.interceptor.LoggingInterceptor;
 
 @Configuration
-public class LoggingConfiguration implements WebMvcConfigurer {
+public class InterceptorConfiguration implements WebMvcConfigurer {
 
     private final LoggingInterceptor loggingInterceptor;
 
-    public LoggingConfiguration(LoggingInterceptor loggingInterceptor) {
+    public InterceptorConfiguration(LoggingInterceptor loggingInterceptor) {
         this.loggingInterceptor = loggingInterceptor;
     }
 

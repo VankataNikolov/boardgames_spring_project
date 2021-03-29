@@ -2,6 +2,7 @@ package softuni.boardgames.web;
 
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -94,12 +95,21 @@ public class GameController {
     }
 
     @GetMapping("/{id}/details")
-    public String gameDetails(@PathVariable Long id, Model model) throws NotFoundException {
-        GameDetailsViewModel gameDetails = gameService.getGameDetails(id);
+    public String gameDetails(@PathVariable Long id, Model model) {
+        GameDetailsViewModel gameDetails;
+        try {
+            gameDetails = gameService.getGameDetails(id);
+        } catch (NotFoundException e) {
+            throw new RecordNotFoundException();
+        }
 
         model.addAttribute("gameDetails", gameDetails);
 
         return "games-details";
     }
 
+    @ResponseStatus(value= HttpStatus.NOT_FOUND)  // 404
+    private class RecordNotFoundException extends RuntimeException {
+        // ...
+    }
 }

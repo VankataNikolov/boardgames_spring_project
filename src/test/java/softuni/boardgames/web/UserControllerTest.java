@@ -123,8 +123,8 @@ public class UserControllerTest {
     }
 
     private void init() {
-        this.userInit.rolesInit();
-        this.userInit.userInit();
+        this.userInit.roleEntitiesInit();
+        this.userInit.userEntityInit();
     }
 
 }
