@@ -26,5 +26,5 @@ public interface GameService {
 
     List<GameServiceModel> entityToServiceModel(List<GameEntity> gameEntities);
 
-
+    void evictCacheAllGames();
 }

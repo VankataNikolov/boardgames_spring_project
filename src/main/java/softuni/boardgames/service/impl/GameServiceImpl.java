@@ -2,6 +2,8 @@ package softuni.boardgames.service.impl;
 
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import softuni.boardgames.model.binding.GameAddBindingModel;
@@ -73,11 +75,16 @@ public class GameServiceImpl implements GameService {
         gameImageService.addPictures(gameAddBindingModel.getPictures(), savedGame);
     }
 
+    @Cacheable("allGames")
     @Override
     public List<GameServiceModel> getAllGames() {
         return entityToServiceModel(gameRepository.findAll(Sort.by(Sort.Direction.ASC, "createdOn")));
 
     }
+
+    @CacheEvict(cacheNames = "allGames", allEntries = true)
+    @Override
+    public void evictCacheAllGames() {}
 
     @Override
     public GameServiceModel findGameById(Long id) throws NotFoundException {
@@ -134,8 +141,11 @@ public class GameServiceImpl implements GameService {
         return entityToServiceModel(gameRepository.findAllByCategoriesContains(getCategoryEntity(categoryRepository, category)));
     }
 
+    int i = 0;
     @Override
     public List<GameServiceModel> entityToServiceModel(List<GameEntity> gameEntities) {
+        System.out.println("call method " + i);
+        i++;
         return gameEntities
                 .stream()
                 .map(ge -> modelMapper.map(ge, GameServiceModel.class))
