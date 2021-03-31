@@ -25,7 +25,10 @@
             <input type="search" placeholder="search game" id="searchBar">
         </div>
     </div>
-
+    <div th:if="${isOk}" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Successfully add new game</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="container d-flex">
         <div th:each="game : ${allGames}" th:object="${game}" class="card col-2 mx-2">
             <img class="card-img-top" th:src="*{titleImgUrl}" alt="game image">

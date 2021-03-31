@@ -3,6 +3,8 @@ package softuni.boardgames.web;
 import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +21,6 @@ import softuni.boardgames.service.GameService;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,6 +56,7 @@ public class GameController {
 
         model.addAttribute("allGames", allGames);
 
+
         GameCategoriesEnum[] categoriesEnums = GameCategoriesEnum.values();
         List<String> allCategories = new ArrayList<>();
         allCategories.add("ALL");
@@ -82,7 +84,7 @@ public class GameController {
     public String addGameConfirm(@Valid GameAddBindingModel gameAddBindingModel,
                                  BindingResult bindingResult,
                                  RedirectAttributes redirectAttributes,
-                                 Principal principal) throws IOException {
+                                 @AuthenticationPrincipal UserDetails principal) throws IOException {
         if(bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute(String.format(ValidationBinding.VALIDATION, "gameAddBindingModel"), bindingResult);
             redirectAttributes.addFlashAttribute("gameAddBindingModel", gameAddBindingModel);
@@ -90,7 +92,7 @@ public class GameController {
             return "redirect:add";
         }
 
-        gameService.addGame(gameAddBindingModel, principal.getName());
+        gameService.addGame(gameAddBindingModel, principal.getUsername());
 
         return "redirect:all";
     }
