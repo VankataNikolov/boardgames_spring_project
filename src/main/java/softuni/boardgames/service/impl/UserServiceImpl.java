@@ -15,7 +15,6 @@ import softuni.boardgames.repository.UserRepository;
 import softuni.boardgames.repository.UserRoleRepository;
 import softuni.boardgames.service.UserService;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +111,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+
     @Override
     public void changeRoles(String username, String userRoleName) {
         UserEntity userEntity = userRepository.findByUsername(username)

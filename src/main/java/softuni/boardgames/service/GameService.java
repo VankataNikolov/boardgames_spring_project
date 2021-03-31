@@ -2,6 +2,7 @@ package softuni.boardgames.service;
 
 import javassist.NotFoundException;
 import softuni.boardgames.model.binding.GameAddBindingModel;
+import softuni.boardgames.model.binding.GameEditBindingModel;
 import softuni.boardgames.model.entity.GameEntity;
 import softuni.boardgames.model.service.GameServiceModel;
 import softuni.boardgames.model.view.GameAllViewModel;
@@ -26,5 +27,9 @@ public interface GameService {
 
     List<GameServiceModel> entityToServiceModel(List<GameEntity> gameEntities);
 
+    GameEditBindingModel serviceModelToEditBindingModel(GameServiceModel gameServiceModel);
+
     void evictCacheAllGames();
+
+    void editGame(GameEditBindingModel gameEditBindingModel) throws NotFoundException;
 }

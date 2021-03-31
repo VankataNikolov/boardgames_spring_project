@@ -7,6 +7,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import softuni.boardgames.model.binding.GameAddBindingModel;
+import softuni.boardgames.model.binding.GameEditBindingModel;
 import softuni.boardgames.model.entity.CategoryEntity;
 import softuni.boardgames.model.entity.GameEntity;
 import softuni.boardgames.model.entity.GameImagesEntity;
@@ -78,13 +79,29 @@ public class GameServiceImpl implements GameService {
     @Cacheable("allGames")
     @Override
     public List<GameServiceModel> getAllGames() {
-        return entityToServiceModel(gameRepository.findAll(Sort.by(Sort.Direction.ASC, "createdOn")));
+        return entityToServiceModel(gameRepository.findAll(Sort.by(Sort.Direction.ASC, "name")));
 
     }
 
     @CacheEvict(cacheNames = "allGames", allEntries = true)
     @Override
     public void evictCacheAllGames() {}
+
+    @Override
+    public void editGame(GameEditBindingModel gameEditBindingModel) throws NotFoundException {
+        Long gameId = gameEditBindingModel.getId();
+        GameEntity gameEntity = gameRepository.findById(gameId)
+                .orElseThrow(() -> new NotFoundException("game with id "+ gameId +" not found"));
+
+        gameEntity.setDescription(gameEditBindingModel.getDescription());
+        gameEntity.setName(gameEditBindingModel.getName());
+        gameEntity.getCategories().clear();
+        gameEditBindingModel.getCategories()
+                .forEach(c -> gameEntity.getCategories().add(getCategoryEntity(categoryRepository, c)));
+        gameEntity.setLastEdited(LocalDateTime.now());
+        gameRepository.save(gameEntity);
+
+    }
 
     @Override
     public GameServiceModel findGameById(Long id) throws NotFoundException {
@@ -134,6 +151,20 @@ public class GameServiceImpl implements GameService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public GameEditBindingModel serviceModelToEditBindingModel(GameServiceModel gameServiceModel) {
+
+        GameEditBindingModel gameEditBindingModel = modelMapper.map(gameServiceModel, GameEditBindingModel.class);
+        List<String> categoryNames = gameServiceModel.getCategories()
+                .stream()
+                .map(categoryEntity -> categoryEntity.getName().name())
+                .collect(Collectors.toList());
+        gameEditBindingModel.getCategories().clear();
+        categoryNames
+                .forEach(cn -> gameEditBindingModel.getCategories().add(cn));
+        return gameEditBindingModel;
+
+    }
 
 
     @Override
@@ -141,11 +172,8 @@ public class GameServiceImpl implements GameService {
         return entityToServiceModel(gameRepository.findAllByCategoriesContains(getCategoryEntity(categoryRepository, category)));
     }
 
-    int i = 0;
     @Override
     public List<GameServiceModel> entityToServiceModel(List<GameEntity> gameEntities) {
-        System.out.println("call method " + i);
-        i++;
         return gameEntities
                 .stream()
                 .map(ge -> modelMapper.map(ge, GameServiceModel.class))

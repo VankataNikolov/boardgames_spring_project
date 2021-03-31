@@ -17,8 +17,7 @@
                         <label for="inputTitle" class="col-form-label">Title</label>
                     </div>
                     <div class="col-auto mx-2">
-                        <input th:field="*{title}" th:errorclass="is-invalid" type="text" name="title" id="inputTitle" class="form-control"
-                               aria-describedby="usernameHelpInline">
+                        <input th:field="*{title}" th:errorclass="is-invalid" type="text" name="title" id="inputTitle" class="form-control">
                     </div>
                     <div class="col-auto">
                         <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}" id="titleError" class="text-light form-text bg-danger rounded mx-2"></small>
@@ -29,8 +28,7 @@
                         <label for="inputContent" class="col-form-label">Content</label>
                     </div>
                     <div class="col-auto mx-2">
-                        <textarea th:field="*{content}" name="content" id="inputContent" class="form-control"
-                                  aria-describedby="passwordHelpInline"></textarea>
+                        <textarea th:field="*{content}" th:errorclass="is-invalid" name="content" id="inputContent" class="form-control"></textarea>
                     </div>
                     <div class="col-auto">
                         <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-light form-text bg-danger rounded mx-2"></small>

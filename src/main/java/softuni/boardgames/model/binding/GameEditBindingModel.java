@@ -1,15 +1,25 @@
 package softuni.boardgames.model.binding;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
-public class GameInitBindingModel {
+public class GameEditBindingModel {
 
+    private Long id;
     private String name;
     private String description;
-    private String titleImgUrl;
-    private String[] categories;
+    private List<String> categories;
 
-    public GameInitBindingModel() {
+    public GameEditBindingModel() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Size(min = 2, max = 100)
@@ -30,20 +40,12 @@ public class GameInitBindingModel {
         this.description = description;
     }
 
-    @Size(max = 255)
-    public String getTitleImgUrl() {
-        return titleImgUrl;
-    }
-
-    public void setTitleImgUrl(String titleImgUrl) {
-        this.titleImgUrl = titleImgUrl;
-    }
-
-    public String[] getCategories() {
+    @NotEmpty(message = "choose at least one category")
+    public List<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(String[] categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 }

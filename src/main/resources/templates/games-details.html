@@ -34,7 +34,7 @@
         <div>
             <a th:href="@{/comments/{id}/all(id=*{id}, name=*{name})}" class="btn btn-warning">See thoughts</a>
             <a th:href="@{/comments/{id}/add(id=*{id})}" class="btn btn-warning">ADD Comment</a>
-            <button sec:authorize="hasRole('ROLE_EDITOR')" class="btn btn-secondary"><strong>EDIT</strong></button>
+            <a sec:authorize="hasRole('ROLE_EDITOR')" th:href="@{/games/{id}/edit(id=*{id})}" class="btn btn-secondary"><strong>EDIT content</strong></a>
         </div>
     </div>
 

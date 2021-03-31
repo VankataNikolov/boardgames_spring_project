@@ -25,18 +25,18 @@
             <img src="/images/dice.jpg" width="50px" alt="">
         </a>
 
-        <div sec:authorize="hasRole('ROLE_EDITOR')" class="dropdown">
+        <div sec:authorize="hasRole('ROLE_EDITOR')" class="dropdown mx=2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonEditor"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 EDITOR
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonEditor">
                 <a class="dropdown-item" th:href="@{/games/add}">Add new game</a>
-                <a class="dropdown-item" th:href="@{/}">Edit game</a>
+                <a class="dropdown-item" th:href="@{/games/edit/select}">Edit game</a>
             </div>
         </div>
 
-        <div sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown">
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown mx=2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButtonAdmin"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 ADMIN

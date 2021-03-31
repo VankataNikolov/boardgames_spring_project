@@ -12,7 +12,7 @@ public class CommentAddBindingModel {
     }
 
     @NotBlank
-    @Size(min = 5, max = 100)
+    @Size(min = 5, max = 100, message = "title must be between 5 and 100 characters")
     public String getTitle() {
         return title;
     }

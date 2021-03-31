@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import softuni.boardgames.constants.ValidationBinding;
 import softuni.boardgames.model.binding.GameAddBindingModel;
+import softuni.boardgames.model.binding.GameEditBindingModel;
 import softuni.boardgames.model.enums.GameCategoriesEnum;
+import softuni.boardgames.model.service.GameServiceModel;
 import softuni.boardgames.model.view.GameAllViewModel;
 import softuni.boardgames.model.view.GameDetailsViewModel;
 import softuni.boardgames.service.GameService;
@@ -71,8 +73,7 @@ public class GameController {
             model.addAttribute("gameAddBindingModel", new GameAddBindingModel());
         }
 
-        List<GameCategoriesEnum> categories = Arrays.asList(GameCategoriesEnum.values());
-        model.addAttribute("allCategories", categories);
+        model.addAttribute("allCategories", this.getCategories());
 
         return "games-add";
     }
@@ -108,8 +109,63 @@ public class GameController {
         return "games-details";
     }
 
+    @GetMapping("/edit/select")
+    public String editSelect(Model model){
+        model.addAttribute("allGames", gameService.getAllGames());
+        return "games-edit-select";
+    }
+
+    @GetMapping("/edit")
+    public String edit(@RequestParam Long gameId){
+        return "redirect:/games/" + gameId + "/edit";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model){
+        if(!model.containsAttribute("editError")){
+            model.addAttribute("editError", false);
+        }
+
+        if(!((boolean) model.getAttribute("editError"))){
+            GameServiceModel gameServiceById;
+            try {
+                gameServiceById = gameService.findGameById(id);
+            } catch (NotFoundException e) {
+                throw new RecordNotFoundException();
+            }
+            GameEditBindingModel gameEditBindingModel = gameService.serviceModelToEditBindingModel(gameServiceById);
+            model.addAttribute("gameEditBindingModel", gameEditBindingModel);
+        }
+        model.addAttribute("allCategories", this.getCategories());
+        return "games-edit";
+    }
+
+    @PostMapping("/{id}/edit")
+    public String editFormConfirm(@Valid GameEditBindingModel gameEditBindingModel,
+                                  BindingResult bindingResult,
+                                  RedirectAttributes redirectAttributes, @PathVariable Long id){
+
+        if(bindingResult.hasErrors()){
+            redirectAttributes.addFlashAttribute(String.format(ValidationBinding.VALIDATION, "gameEditBindingModel"), bindingResult);
+            redirectAttributes.addFlashAttribute("gameEditBindingModel", gameEditBindingModel);
+            redirectAttributes.addFlashAttribute("editError", true);
+            return "redirect:/games/" + id + "/edit";
+        }
+
+        gameEditBindingModel.setId(id);
+        try {
+            gameService.editGame(gameEditBindingModel);
+        } catch (NotFoundException e) {
+            throw new RecordNotFoundException();
+        }
+        gameService.evictCacheAllGames();
+        return "redirect:/games/all";
+    }
+
     @ResponseStatus(value= HttpStatus.NOT_FOUND)  // 404
-    private class RecordNotFoundException extends RuntimeException {
-        // ...
+    private class RecordNotFoundException extends RuntimeException { }
+
+    private List<GameCategoriesEnum> getCategories(){
+        return Arrays.asList(GameCategoriesEnum.values());
     }
 }
