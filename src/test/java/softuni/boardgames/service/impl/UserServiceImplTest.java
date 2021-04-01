@@ -12,11 +12,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import softuni.boardgames.UnitTestUserInit;
 import softuni.boardgames.model.entity.UserEntity;
+import softuni.boardgames.model.entity.UserRoleEntity;
+import softuni.boardgames.model.enums.UserRoleEnum;
 import softuni.boardgames.model.service.UserServiceModel;
 import softuni.boardgames.repository.UserRepository;
 import softuni.boardgames.repository.UserRoleRepository;
 
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceImplTest {
@@ -44,7 +49,7 @@ public class UserServiceImplTest {
 
     @BeforeEach
     void setUp(){
-        this.userEntityTest = this.unitTestUserInit.mockedUserEntityInit();
+        this.userEntityTest = this.unitTestUserInit.userEntityInit();
         this.userServiceTest = new UserServiceImpl(
                 this.mockedUserRepository,
                 modelMapper,
@@ -66,7 +71,7 @@ public class UserServiceImplTest {
 
     @Test
     void getAllShouldReturnCorrectListOfUsers(){
-        UserEntity secondUserEntityTest = this.unitTestUserInit.secondMockedUserEntityInit();
+        UserEntity secondUserEntityTest = this.unitTestUserInit.secondUserEntityInit();
         Mockito.when(
                 mockedUserRepository.findAll())
                 .thenReturn(List.of(userEntityTest, secondUserEntityTest));
@@ -74,6 +79,27 @@ public class UserServiceImplTest {
         Assertions.assertEquals(2, actual.size());
         Assertions.assertEquals(userEntityTest.getUsername(), actual.get(0).getUsername());
         Assertions.assertEquals(secondUserEntityTest.getUsername(), actual.get(1).getUsername());
+    }
+
+    @Test
+    void testChangeRoles(){
+        UserEntity secondUserEntityTest = unitTestUserInit.secondUserEntityInit();
+        UserRoleEntity newUserRoleEntity = new UserRoleEntity(UserRoleEnum.ROLE_USER, "user");
+        Mockito.when(
+                mockedUserRepository.findByUsername("UserTest2"))
+                .thenReturn(java.util.Optional.ofNullable(secondUserEntityTest));
+        Mockito.when(
+                mockedUserRoleRepository.findByRole(UserRoleEnum.ROLE_USER))
+                .thenReturn(newUserRoleEntity);
+        Mockito.when(mockedUserRepository.save(any()))
+                .thenReturn(any());
+
+        userServiceTest.changeRoles("UserTest2", "ROLE_USER");
+
+        Mockito.verify(mockedUserRepository, times(1))
+                .save(any());
+        assert secondUserEntityTest != null;
+        Assertions.assertEquals(1, secondUserEntityTest.getRoles().size());
     }
 
 }

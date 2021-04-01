@@ -19,7 +19,7 @@ public class UnitTestGameInit {
                 "test1  test1 test1 test1 test1 test1",
                 "img1",
                 initCategories(),
-                unitTestUserInit.mockedUserEntityInit()
+                unitTestUserInit.userEntityInit()
         );
     }
 
@@ -29,7 +29,7 @@ public class UnitTestGameInit {
                 "test2  test2 test2 test2 test2 test2",
                 "img2",
                 initCategories(),
-                unitTestUserInit.secondMockedUserEntityInit()
+                unitTestUserInit.secondUserEntityInit()
         );
     }
 

@@ -19,7 +19,7 @@ public class UnitTestUserInit {
         this.mockUserPassword = "123456";
     }
 
-    public UserEntity mockedUserEntityInit(){
+    public UserEntity userEntityInit(){
         return new UserEntity(
                 this.mockUserUsername,
                 this.mockUserPassword,
@@ -29,7 +29,7 @@ public class UnitTestUserInit {
         );
     }
 
-    public UserEntity secondMockedUserEntityInit(){
+    public UserEntity secondUserEntityInit(){
         return new UserEntity(
                 "UserTest2",
                 this.mockUserPassword,
