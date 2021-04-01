@@ -25,7 +25,6 @@ public class ControllerAspect {
         if(returningView.equals("redirect:all")){
             Object[] args = joinPoint.getArgs();
             for(Object arg : args){
-                System.out.println(arg.getClass().getName());
                 if(isRedirectAttributesClass(arg)){
                     RedirectAttributes redirectAttributes = (RedirectAttributes) arg;
                     redirectAttributes.addFlashAttribute("isOk", true);
@@ -34,8 +33,6 @@ public class ControllerAspect {
             }
         }
     }
-
-
 
     @After("allGamesPointcut()")
     public void afterAdviceAllGames(JoinPoint joinPoint){

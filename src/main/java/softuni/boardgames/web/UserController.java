@@ -18,6 +18,7 @@ import softuni.boardgames.service.UserRoleService;
 import softuni.boardgames.service.UserService;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -64,8 +65,10 @@ public class UserController {
 
             return "redirect:register";
         }
-
-        userService.registerAndLogin(modelMapper.map(userRegisterBindingModel, UserServiceModel.class));
+        UserServiceModel userServiceModel = modelMapper.map(userRegisterBindingModel, UserServiceModel.class);
+        userServiceModel.setCreatedOn(LocalDateTime.now());
+        userServiceModel.setLastEdited(LocalDateTime.now());
+        userService.registerAndLogin(userServiceModel);
 
         return "redirect:/home";
     }

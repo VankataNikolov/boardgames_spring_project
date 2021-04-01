@@ -1,5 +1,6 @@
 package softuni.boardgames.web;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,8 +40,13 @@ public class UserControllerTest {
 
     @BeforeEach
     void setUp(){
+        cleanUp();
+        this.userInit.userEntityInitAndSave();
+    }
+
+    @AfterEach
+    void cleanUp(){
         this.userInit.clear();
-        this.init();
     }
 
     @Test
@@ -122,9 +128,5 @@ public class UserControllerTest {
                 .andExpect(model().attributeExists("allUsers", "userRoles"));
     }
 
-    private void init() {
-        this.userInit.roleEntitiesInit();
-        this.userInit.userEntityInit();
-    }
 
 }

@@ -1,5 +1,6 @@
 package softuni.boardgames.web;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,13 @@ public class GameControllerTest {
 
     @BeforeEach
     void setUp(){
+        this.init();
+    }
+
+    @AfterEach
+    void cleanUp(){
         this.gameEntitiesInit.clear();
         this.userInit.clear();
-        this.init();
     }
 
     @Test
@@ -62,11 +67,12 @@ public class GameControllerTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.get(GAME_CONTROLLER_PREFIX + "/add")
         )
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("http://localhost/users/login"));
     }
 
     @Test
-    @WithMockUser(value = "UserTest", roles = {"EDITOR", "ADMIN"})
+    @WithMockUser(value = "UserTest", roles = {"EDITOR"})
     void addShouldReturnViewAndModel() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get(GAME_CONTROLLER_PREFIX + "/add")
@@ -92,7 +98,7 @@ public class GameControllerTest {
 
     private void init() {
         this.userInit.roleEntitiesInit();
-        this.userInit.userEntityInit();
+        this.userInit.userEntityInitAndSave();
         this.gameEntitiesInit.init();
     }
 }

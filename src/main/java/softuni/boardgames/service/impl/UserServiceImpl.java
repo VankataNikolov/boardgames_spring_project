@@ -87,8 +87,8 @@ public class UserServiceImpl implements UserService {
                 userServiceModel.getUsername(),
                 passwordEncoder.encode(userServiceModel.getPassword()),
                 setUserRolesList(userRoleRepository, UserRoleEnum.ROLE_USER),
-                LocalDateTime.now(),
-                LocalDateTime.now()
+                userServiceModel.getCreatedOn(),
+                userServiceModel.getLastEdited()
         );
         newUser = userRepository.save(newUser);
 
@@ -123,7 +123,6 @@ public class UserServiceImpl implements UserService {
                 .forEach(ure -> userEntity.getRoles().add(ure));
         userEntity.setLastEdited(LocalDateTime.now());
         userRepository.save(userEntity);
-
     }
 
     private static List<UserRoleEntity> setUserRolesList(UserRoleRepository userRoleRepository, UserRoleEnum userRoleEnum) {

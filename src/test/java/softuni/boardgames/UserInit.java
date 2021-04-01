@@ -26,27 +26,40 @@ public class UserInit {
     }
 
 
+    public void userEntitySave(UserEntity userEntity){
+        userRepository.save(userEntity);
+    }
 
-    public void userEntityInit(){
-        UserEntity userEntity = new UserEntity(
+    public UserEntity userEntityInit(){
+        return new UserEntity(
                 this.mockUserUsername,
                 this.mockUserPassword,
                 List.of(
-                        userRoleRepository.findByRole(UserRoleEnum.ROLE_ADMIN),
-                        userRoleRepository.findByRole(UserRoleEnum.ROLE_EDITOR)
+                        userRoleRepository.findByRole(UserRoleEnum.ROLE_USER),
+                        userRoleRepository.findByRole(UserRoleEnum.ROLE_EDITOR),
+                        userRoleRepository.findByRole(UserRoleEnum.ROLE_ADMIN)
                 ),
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
-        userRepository.save(userEntity);
     }
 
-    public void roleEntitiesInit(){
-        UserRoleEntity userRoleEntityAdmin = new UserRoleEntity(UserRoleEnum.ROLE_ADMIN, "admin");
-        userRoleRepository.save(userRoleEntityAdmin);
+    public void roleEntitiesSave(List<UserRoleEntity> roleEntities){
+        roleEntities
+                .forEach(re -> userRoleRepository.save(re));
+    }
 
-        UserRoleEntity userRoleEntityEditor = new UserRoleEntity(UserRoleEnum.ROLE_EDITOR, "editor");
-        userRoleRepository.save(userRoleEntityEditor);
+    public List<UserRoleEntity> roleEntitiesInit(){
+        return List.of(
+                new UserRoleEntity(UserRoleEnum.ROLE_USER, "user"),
+                new UserRoleEntity(UserRoleEnum.ROLE_EDITOR, "editor"),
+                new UserRoleEntity(UserRoleEnum.ROLE_ADMIN, "admin")
+                );
+    }
+
+    public void userEntityInitAndSave(){
+        roleEntitiesSave(roleEntitiesInit());
+        userEntitySave(userEntityInit());
     }
 
     public void clear(){
