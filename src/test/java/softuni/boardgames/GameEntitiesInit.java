@@ -38,7 +38,7 @@ public class GameEntitiesInit {
                 "test test test test test test test test test test test",
                 "test.jpg",
                 categoryRepository.findAll(),
-                userRepository.findByUsername("UserTest").get()
+                userRepository.findByUsername("Test").get()
         );
 
         GameEntity gameEntityTest2 = new GameEntity(
@@ -46,7 +46,7 @@ public class GameEntitiesInit {
                 "test test test test test test test test test test test",
                 "test.jpg",
                 List.of(categoryRepository.findByName(GameCategoriesEnum.CARDS)),
-                userRepository.findByUsername("UserTest").get()
+                userRepository.findByUsername("Test").get()
         );
 
         gameRepository.save(gameEntityTest1);
@@ -59,5 +59,6 @@ public class GameEntitiesInit {
 
     public void clear(){
         gameRepository.deleteAll();
+        categoryRepository.deleteAll();
     }
 }

@@ -1,6 +1,5 @@
 package softuni.boardgames.web;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,13 +39,8 @@ public class UserControllerTest {
 
     @BeforeEach
     void setUp(){
-        cleanUp();
-        this.userInit.userEntityInitAndSave();
-    }
-
-    @AfterEach
-    void cleanUp(){
-        this.userInit.clear();
+        userInit.clear();
+        userInit.userEntityInitAndSave();
     }
 
     @Test
@@ -118,7 +112,7 @@ public class UserControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "UserTest", roles = {"ADMIN"})
+    @WithMockUser(value = "Test", roles = {"ADMIN"})
     void changeRoleShouldReturnViewModel() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(
                 USER_CONTROLLER_PREFIX + "/change-role"

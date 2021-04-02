@@ -41,14 +41,11 @@ public class GameControllerTest {
 
     @BeforeEach
     void setUp(){
+        this.gameEntitiesInit.clear();
+        this.userInit.clear();
         this.init();
     }
 
-    @AfterEach
-    void cleanUp(){
-        this.gameEntitiesInit.clear();
-        this.userInit.clear();
-    }
 
     @Test
     void allGamesShouldReturnViewAndModel() throws Exception {
@@ -72,7 +69,7 @@ public class GameControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "UserTest", roles = {"EDITOR"})
+    @WithMockUser(value = "Test", roles = {"EDITOR"})
     void addShouldReturnViewAndModel() throws Exception {
         mockMvc.perform(
                 MockMvcRequestBuilders.get(GAME_CONTROLLER_PREFIX + "/add")
@@ -83,7 +80,7 @@ public class GameControllerTest {
     }
 
     @Test
-    @WithMockUser(value = "UserTest", roles = {"EDITOR", "ADMIN"})
+    @WithMockUser(value = "Test", roles = {"EDITOR", "ADMIN"})
     void detailsShouldReturnCorrectGameViewAndModel() throws Exception {
 
         long gameId = gameRepository.findByName("GameTest1").getId();

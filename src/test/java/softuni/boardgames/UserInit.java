@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import softuni.boardgames.model.entity.UserEntity;
 import softuni.boardgames.model.entity.UserRoleEntity;
 import softuni.boardgames.model.enums.UserRoleEnum;
+import softuni.boardgames.repository.LinkRepository;
 import softuni.boardgames.repository.UserRepository;
 import softuni.boardgames.repository.UserRoleRepository;
 
@@ -15,13 +16,15 @@ public class UserInit {
 
     private UserRepository userRepository;
     private UserRoleRepository userRoleRepository;
+    private LinkRepository linkRepository;
     private String mockUserUsername;
     private String mockUserPassword;
 
-    public UserInit(UserRepository userRepository, UserRoleRepository userRoleRepository) {
+    public UserInit(UserRepository userRepository, UserRoleRepository userRoleRepository, LinkRepository linkRepository) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
-        this.mockUserUsername = "UserTest";
+        this.linkRepository = linkRepository;
+        this.mockUserUsername = "Test";
         this.mockUserPassword = "123456";
     }
 
@@ -63,6 +66,7 @@ public class UserInit {
     }
 
     public void clear(){
+        linkRepository.deleteAll();
         userRepository.deleteAll();
         userRoleRepository.deleteAll();
     }
