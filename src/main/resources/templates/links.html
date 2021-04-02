@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common :: head">
+
+</head>
+<body>
+<header th:replace="fragments/common :: header"></header>
+<div class="bg-blur">
+<div class="container">
+    <h4 class="bg-light mb-3 p-2">Useful links for boardgamers</h4>
+    <div class="list-group">
+        <a th:each="link : ${allLinks}" th:object="${link}"
+           th:href="*{url}"
+           th:text="*{title + ' -> ' + description}"
+           target="_blank"
+           class="list-group-item list-group-item-action" aria-current="true">
+            The current link item
+        </a>
+    </div>
+    <th:block sec:authorize="hasRole('ROLE_EDITOR')">
+        <a th:href="@{/links/add}" class="btn btn-secondary" tabindex="-1" role="button">ADD new link</a>
+    </th:block>
+</div>
+</div>
+</body>
+</html>

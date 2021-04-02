@@ -1,28 +1,37 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/common :: head">
 <body>
 <header th:replace="fragments/common :: header"></header>
 <div class="bg-blur">
     <div class="d-flex justify-content-center">
         <div class="bg-green-linear mt-4 py-2 d-flex align-items-center justify-content-center rounded">
-            <form th:action="@{/games/{id}/edit(id=*{id})}" method="POST" th:object="${gameEditBindingModel}"
+            <form th:action="@{/links/add}" method="POST" th:object="${linkServiceModel}"
                   enctype="multipart/form-data">
-                <h3 class="text-center">Edit game</h3>
+                <h3 class="text-center">Add new link</h3>
                 <div>
                     <div class="col-auto mx-2">
-                        <label for="inputName" class="col-form-label"><strong>Name</strong></label>
+                        <label for="inputTitle" class="col-form-label"><strong>Title</strong></label>
                     </div>
                     <div class="col-auto mx-2">
-                        <input th:field="*{name}" type="text" name="name" id="inputName" class="form-control" required="required">
+                        <input th:field="*{title}" type="text" name="title" id="inputTitle" class="form-control" required="required">
                     </div>
                     <div class="col-auto">
-                        <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-light form-text bg-danger rounded mx-2"></small>
+                        <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-light form-text bg-danger rounded mx-2"></small>
                     </div>
                 </div>
-
+                <div>
+                    <div class="col-auto mx-2">
+                        <label for="inputUrl" class="col-form-label"><strong>URL</strong></label>
+                    </div>
+                    <div class="col-auto mx-2">
+                        <input th:field="*{url}" type="text" name="url" id="inputUrl" class="form-control" required="required">
+                    </div>
+                    <div class="col-auto">
+                        <small th:if="${#fields.hasErrors('url')}" th:errors="*{url}" class="text-light form-text bg-danger rounded mx-2"></small>
+                    </div>
+                </div>
                 <div>
                     <div class="col-auto mx-2 font-weight-bold">
                         <label for="inputDescription" class="col-form-label"><strong>Description</strong></label>
@@ -33,18 +42,6 @@
                     <div class="col-auto">
                         <small th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-light form-text bg-danger rounded mx-2"></small>
                     </div>
-                </div>
-                <div class="col-auto  mx-2">
-                    <label class="font-weight-bold"><strong>Categories: </strong>
-                        <input type="checkbox" name="categories" class="mx-2"
-                               th:each="category : ${allCategories}"
-                               th:text="${category.name}"
-                               th:value="${category.name}"
-                               th:field="*{categories}"/>
-                    </label>
-                </div>
-                <div class="col-auto">
-                    <small th:if="${#fields.hasErrors('categories')}" th:errors="*{categories}" class="text-light form-text bg-danger rounded mx-2"></small>
                 </div>
 
                 <div class="d-flex justify-content-center mt-2">
