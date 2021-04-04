@@ -1,6 +1,5 @@
 package softuni.boardgames.web;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import softuni.boardgames.GameEntitiesInit;
-import softuni.boardgames.UserInit;
 import softuni.boardgames.repository.GameRepository;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;

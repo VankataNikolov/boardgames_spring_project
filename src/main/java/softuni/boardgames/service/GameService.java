@@ -17,9 +17,9 @@ public interface GameService {
 
     List<GameServiceModel> getAllGames();
 
-    GameServiceModel findGameById(Long id) throws NotFoundException;
+    GameServiceModel findGameById(Long id);
 
-    GameDetailsViewModel getGameDetails(Long id) throws NotFoundException;
+    GameDetailsViewModel getGameDetails(Long id);
 
     List<GameAllViewModel> serviceModelToViewAllModel(List<GameServiceModel> gameServiceModels);
 
@@ -31,5 +31,5 @@ public interface GameService {
 
     void evictCacheAllGames();
 
-    void editGame(GameEditBindingModel gameEditBindingModel) throws NotFoundException;
+    void editGame(GameEditBindingModel gameEditBindingModel);
 }

@@ -128,11 +128,8 @@ public class GameServiceImplTest {
                 .thenReturn(new CategoryEntity(GameCategoriesEnum.CARDS));
         Mockito.when(this.mockedGameRepository.save(any(GameEntity.class)))
                 .thenReturn(gameEntity1);
-        try {
-            gameServiceTest.editGame(gameEditBindingModel);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
+        gameServiceTest.editGame(gameEditBindingModel);
+
         Mockito.verify(mockedGameRepository, Mockito.times(1)).save(gameEntity1);
         Assertions.assertEquals(1, gameEntity1.getCategories().size());
     }

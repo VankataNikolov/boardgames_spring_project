@@ -8,6 +8,10 @@ body {
     height: 100%;
 }
 
+.btn-nav-main:hover{
+    transform: scale(1.15);
+}
+
 .bg-blur .bg-green-linear{
     background: linear-gradient(180deg, rgba(250,251,248,1) 20%, rgba(141,207,35,1) 100%);
 }
@@ -23,7 +27,7 @@ body {
     width: 100%;
 }
 
-.jumbotron-fluid .container, .game-details{
+.jumbotron-fluid .container, .game-details, .app-header{
     background-color: beige;
 }
 

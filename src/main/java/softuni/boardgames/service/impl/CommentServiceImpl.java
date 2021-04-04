@@ -2,6 +2,7 @@ package softuni.boardgames.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import softuni.boardgames.exception.RecordNotFoundException;
 import softuni.boardgames.model.entity.CommentEntity;
 import softuni.boardgames.model.entity.GameEntity;
 import softuni.boardgames.model.entity.UserEntity;
@@ -50,11 +51,11 @@ public class CommentServiceImpl implements CommentService {
         CommentEntity commentEntity = modelMapper.map(commentServiceModel, CommentEntity.class);
         UserEntity creator = userRepository
                 .findByUsername(commentServiceModel.getAuthorName())
-                .orElseThrow(() -> new IllegalArgumentException("Creator " + commentServiceModel.getAuthorName() + " could not be found"));
+                .orElseThrow(() -> new RecordNotFoundException("Creator " + commentServiceModel.getAuthorName() + " could not be found"));
         commentEntity.setAuthor(creator);
 
         GameEntity gameEntity = gameRepository.findById(commentServiceModel.getGameId())
-                .orElseThrow(() -> new IllegalArgumentException("Game with id " + commentServiceModel.getGameId()+ " could not be found"));
+                .orElseThrow(() -> new RecordNotFoundException("Game with id " + commentServiceModel.getGameId()+ " could not be found"));
         commentEntity.setGame(gameEntity);
 
         commentRepository.save(commentEntity);

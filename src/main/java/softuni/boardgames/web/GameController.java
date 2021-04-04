@@ -100,11 +100,8 @@ public class GameController {
     @GetMapping("/{id}/details")
     public String gameDetails(@PathVariable Long id, Model model) {
         GameDetailsViewModel gameDetails;
-        try {
-            gameDetails = gameService.getGameDetails(id);
-        } catch (NotFoundException e) {
-            throw new RecordNotFoundException();
-        }
+
+        gameDetails = gameService.getGameDetails(id);
 
         model.addAttribute("gameDetails", gameDetails);
 
@@ -130,11 +127,8 @@ public class GameController {
 
         if(!((boolean) model.getAttribute("editError"))){
             GameServiceModel gameServiceById;
-            try {
-                gameServiceById = gameService.findGameById(id);
-            } catch (NotFoundException e) {
-                throw new RecordNotFoundException();
-            }
+
+            gameServiceById = gameService.findGameById(id);
             GameEditBindingModel gameEditBindingModel = gameService.serviceModelToEditBindingModel(gameServiceById);
             model.addAttribute("gameEditBindingModel", gameEditBindingModel);
         }
@@ -155,17 +149,11 @@ public class GameController {
         }
 
         gameEditBindingModel.setId(id);
-        try {
-            gameService.editGame(gameEditBindingModel);
-        } catch (NotFoundException e) {
-            throw new RecordNotFoundException();
-        }
+        gameService.editGame(gameEditBindingModel);
         gameService.evictCacheAllGames();
         return "redirect:/games/all";
     }
 
-    @ResponseStatus(value= HttpStatus.NOT_FOUND)  // 404
-    private class RecordNotFoundException extends RuntimeException { }
 
     private List<GameCategoriesEnum> getCategories(){
         return Arrays.asList(GameCategoriesEnum.values());

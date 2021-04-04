@@ -1,11 +1,11 @@
 package softuni.boardgames.service.impl;
 
-import javassist.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import softuni.boardgames.exception.RecordNotFoundException;
 import softuni.boardgames.model.binding.GameAddBindingModel;
 import softuni.boardgames.model.binding.GameEditBindingModel;
 import softuni.boardgames.model.entity.CategoryEntity;
@@ -88,10 +88,10 @@ public class GameServiceImpl implements GameService {
     public void evictCacheAllGames() {}
 
     @Override
-    public void editGame(GameEditBindingModel gameEditBindingModel) throws NotFoundException {
+    public void editGame(GameEditBindingModel gameEditBindingModel) {
         Long gameId = gameEditBindingModel.getId();
         GameEntity gameEntity = gameRepository.findById(gameId)
-                .orElseThrow(() -> new NotFoundException("game with id "+ gameId +" not found"));
+                .orElseThrow(() -> new RecordNotFoundException("game with id "+ gameId +" not found"));
 
         gameEntity.setDescription(gameEditBindingModel.getDescription());
         gameEntity.setName(gameEditBindingModel.getName());
@@ -104,18 +104,18 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public GameServiceModel findGameById(Long id) throws NotFoundException {
-        GameEntity gameEntity = gameRepository.findById(id).orElseThrow(() -> new NotFoundException("game with id "+ id +" not found"));
+    public GameServiceModel findGameById(Long id) {
+        GameEntity gameEntity = gameRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("game with id "+ id +" not found"));
         GameServiceModel mappedGame = modelMapper.map(gameEntity, GameServiceModel.class);
         UserEntity userEntity = userRepository.findByUsername(gameEntity.getAddedBy().getUsername()).
-                orElseThrow(() -> new NotFoundException("user not found"));
+                orElseThrow(() -> new RecordNotFoundException("user not found"));
         mappedGame.setAddedBy(modelMapper.map(userEntity, UserServiceModel.class));
 
         return mappedGame;
     }
 
     @Override
-    public GameDetailsViewModel getGameDetails(Long id) throws NotFoundException {
+    public GameDetailsViewModel getGameDetails(Long id) {
         GameServiceModel gameByIdService = findGameById(id);
         GameDetailsViewModel gameByIdView = modelMapper.map(gameByIdService, GameDetailsViewModel.class);
 

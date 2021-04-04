@@ -9,7 +9,7 @@
 <header th:replace="fragments/common :: header"></header>
 <div class="bg-blur">
     <div class="container">
-        <h2 th:text="|Your thougths about ${#strings.capitalize(name)}|">The name of the game</h2>
+        <h2 th:text="|Your thougths about ${#strings.capitalize(name)}|" class="app-header p-2">The name of the game</h2>
         <div th:each="comment : ${comments}" th:object="${comment}" class="card">
             <div class="card-body">
                 <h5 th:text="*{title}" class="card-title">Card title</h5>

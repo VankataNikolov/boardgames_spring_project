@@ -1,4 +1,4 @@
-package softuni.boardgames;
+package softuni.boardgames.web;
 
 import org.springframework.stereotype.Component;
 import softuni.boardgames.model.entity.UserEntity;

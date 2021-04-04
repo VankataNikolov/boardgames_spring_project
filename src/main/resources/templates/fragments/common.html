@@ -50,10 +50,10 @@
         <div class="collapse navbar-collapse d-flex justify-content-end px-4" id="navbarNav">
             <ul class="navbar-nav row">
                 <li class="nav-item col-md-3">
-                    <a class="nav-link text-secondary active h5" th:href="@{/games/all}">Games</a>
+                    <a class="nav-link text-secondary active h5 btn-nav-main" th:href="@{/games/all}">Games</a>
                 </li>
                 <li class="nav-item col-md-3">
-                    <a class="nav-link text-secondary active h5" th:href="@{/links}">Links</a>
+                    <a class="nav-link text-secondary active h5 btn-nav-main" th:href="@{/links}">Links</a>
                 </li>
                 <th:block sec:authorize="not isAuthenticated()">
                     <li class="nav-item col-3">
