@@ -46,17 +46,22 @@ public class CommentController {
     }
 
     @GetMapping("/{id}/add")
-    public String add(@PathVariable Long id, Model model){
+    public String add(@PathVariable Long id,
+                      @RequestParam(value = "name") String name,
+                      Model model){
         if(!model.containsAttribute("commentAddBindingModel")){
             model.addAttribute("commentAddBindingModel", new CommentAddBindingModel());
         }
         model.addAttribute("gameId", id);
+        model.addAttribute("gameName", name);
 
         return "comments-add";
     }
 
     @PostMapping("{id}/add")
-    public String add(@PathVariable Long id, @Valid CommentAddBindingModel commentAddBindingModel,
+    public String add(@PathVariable Long id,
+                      @RequestParam(value = "name") String name,
+                      @Valid CommentAddBindingModel commentAddBindingModel,
                       BindingResult bindingResult,
                       RedirectAttributes redirectAttributes,
                       @AuthenticationPrincipal UserDetails principal) {
@@ -76,7 +81,7 @@ public class CommentController {
 
         commentService.addComment(commentServiceModel);
 
-        return "redirect:/games/" + id + "/details";
+        return "redirect:/comments/" + id + "/all?name=" + name;
     }
 
     @DeleteMapping("/{id}/delete")

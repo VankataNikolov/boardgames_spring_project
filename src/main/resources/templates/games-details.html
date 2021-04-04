@@ -30,10 +30,10 @@
         <div>
             <small th:each="category : *{categories}" th:text="${#strings.capitalize(#strings.toLowerCase(category)) + ' '}"></small>
         </div>
-        <p th:text="*{description}"></p>
+        <p th:text="*{description}" class="content"></p>
         <div>
             <a th:href="@{/comments/{id}/all(id=*{id}, name=*{name})}" class="btn btn-warning">See thoughts</a>
-            <a th:href="@{/comments/{id}/add(id=*{id})}" class="btn btn-warning">ADD Comment</a>
+            <a th:href="@{/comments/{id}/add(id=*{id}, name=*{name})}" class="btn btn-warning">ADD Comment</a>
             <a sec:authorize="hasRole('ROLE_EDITOR')" th:href="@{/games/{id}/edit(id=*{id})}" class="btn btn-secondary"><strong>EDIT content</strong></a>
         </div>
     </div>

@@ -27,12 +27,20 @@ body {
     width: 100%;
 }
 
+.game-details .content{
+    text-indent: 40px;
+}
+
 .jumbotron-fluid .container, .game-details, .app-header{
     background-color: beige;
 }
 
 .jumbotron-fluid{
     background-color: rgba(0, 0, 0, 0);
+}
+
+#carouselExampleControls{
+    box-shadow: 0 0 8px 2px rgba(0,0,0,0.5);
 }
 
 .carousel .carousel-item {

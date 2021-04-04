@@ -10,8 +10,8 @@
 <div class="bg-blur">
     <div class="d-flex justify-content-center">
         <div class="bg-green-linear mt-4 py-2 d-flex align-items-center justify-content-center rounded">
-            <form th:object="${commentAddBindingModel}" th:action="@{/comments/{id}/add(id=${gameId})}" method="POST">
-                <h3 class="text-center">Comment form</h3>
+            <form th:object="${commentAddBindingModel}" th:action="@{/comments/{id}/add(id=${gameId}, name=${gameName})}" method="POST">
+                <h4 class="text-center px-2" th:text="|Add comment for ${gameName}|">Comment form</h4>
                 <div>
                     <div class="col-auto mx-2">
                         <label for="inputTitle" class="col-form-label">Title</label>
