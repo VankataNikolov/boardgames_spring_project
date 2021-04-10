@@ -12,8 +12,6 @@ fetch(baseUrl + 'api').
         }
     });
 
-console.log(allGames);
-
 let timeout = null;
 searchBar.addEventListener('keyup', function() {
     const text = searchBar.value.toLowerCase();
@@ -65,7 +63,6 @@ function createElem(type, content, attributes){
     }
 
     function appendEl(node){
-        console.log(node);
         if(typeof node === 'string' || typeof node === 'number'){
             node = document.createTextNode(node);
         }

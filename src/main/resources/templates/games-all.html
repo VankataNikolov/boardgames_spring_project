@@ -35,7 +35,7 @@
     </div>
 
     <div class="container d-flex">
-        <div th:each="game : ${allGames}" th:object="${game}" class="card col-2 mx-2">
+        <div th:each="game : ${allGames}" th:object="${game}" class="card col-2 mx-2 animated-card">
             <img class="card-img-top" th:src="*{titleImgUrl}" alt="game image">
             <div class="card-body">
                 <h4 th:text="*{name}" class="card-title">Card title</h4>
@@ -47,6 +47,7 @@
         </div>
     </div>
 </main>
+<script th:src="@{/js/cardsAnimation.js}"></script>
 <script th:src="@{/js/search.js}"></script>
 </body>
 </html>
