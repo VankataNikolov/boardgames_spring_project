@@ -11,13 +11,13 @@
     <div class="d-flex justify-content-center">
         <div class="bg-green-linear mt-4 py-2 d-flex align-items-center justify-content-center rounded">
             <form th:object="${commentAddBindingModel}" th:action="@{/comments/{id}/add(id=${gameId}, name=${gameName})}" method="POST">
-                <h4 class="text-center px-2" th:text="|Add comment for ${gameName}|">Comment form</h4>
+                <h6 class="text-center px-2" th:text="|Add comment for ${gameName}|">Comment form</h6>
                 <div>
                     <div class="col-auto mx-2">
                         <label for="inputTitle" class="col-form-label">Title</label>
                     </div>
                     <div class="col-auto mx-2">
-                        <input th:field="*{title}" th:errorclass="is-invalid" type="text" name="title" id="inputTitle" class="form-control">
+                        <input th:field="*{title}" type="text" name="title" id="inputTitle" class="form-control">
                     </div>
                     <div class="col-auto">
                         <small th:if="${#fields.hasErrors('title')}" th:errors="*{title}" id="titleError" class="text-light form-text bg-danger rounded mx-2"></small>
@@ -28,7 +28,7 @@
                         <label for="inputContent" class="col-form-label">Content</label>
                     </div>
                     <div class="col-auto mx-2">
-                        <textarea th:field="*{content}" th:errorclass="is-invalid" name="content" id="inputContent" class="form-control"></textarea>
+                        <textarea th:field="*{content}" name="content" id="inputContent" class="form-control"></textarea>
                     </div>
                     <div class="col-auto">
                         <small th:if="${#fields.hasErrors('content')}" th:errors="*{content}" class="text-light form-text bg-danger rounded mx-2"></small>

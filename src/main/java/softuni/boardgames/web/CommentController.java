@@ -70,7 +70,7 @@ public class CommentController {
             redirectAttributes.addFlashAttribute(String.format(ValidationBinding.VALIDATION, "commentAddBindingModel"), bindingResult);
             redirectAttributes.addFlashAttribute("commentAddBindingModel", commentAddBindingModel);
 
-            return "redirect:/comments/" + id + "/add";
+            return "redirect:/comments/" + id + "/add?name=" + name;
         }
 
         CommentServiceModel commentServiceModel = modelMapper.map(commentAddBindingModel, CommentServiceModel.class);

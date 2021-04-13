@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="fragments/common :: head">
+<body>
+<header th:replace="fragments/common :: header"></header>
+    <div class="bg-blur">
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="container">
+            <table th:unless="${#lists.isEmpty(gameVisitsList)}" class="table table-secondary table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Visit times</th>
+                    <th scope="col">Game Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="game : ${gameVisitsList}">
+                    <th th:text="${game.visits}" scope="row">visits</th>
+                    <td th:text="${game.name}">Game name</td>
+                </tr>
+                </tbody>
+            </table>
+
+            <h2 th:if="${#lists.isEmpty(gameVisitsList)}">There are no statistic yet</h2>
+        <div>
+    </div>
+
+</body>
+</html>

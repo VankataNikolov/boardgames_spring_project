@@ -1,8 +1,6 @@
 package softuni.boardgames.web;
 
-import javassist.NotFoundException;
-import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -10,14 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import softuni.boardgames.eventcustom.GameStatisticEventPublisher;
 import softuni.boardgames.constants.ValidationBinding;
 import softuni.boardgames.model.binding.GameAddBindingModel;
 import softuni.boardgames.model.binding.GameEditBindingModel;
 import softuni.boardgames.model.enums.GameCategoriesEnum;
 import softuni.boardgames.model.service.GameServiceModel;
+import softuni.boardgames.model.service.GameStatisticServiceModel;
 import softuni.boardgames.model.view.GameAllViewModel;
 import softuni.boardgames.model.view.GameDetailsViewModel;
 import softuni.boardgames.service.GameService;
+import softuni.boardgames.service.GameStatisticService;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -30,12 +31,15 @@ import java.util.List;
 public class GameController {
 
     private final GameService gameService;
-    private final ModelMapper modelMapper;
+    private final GameStatisticEventPublisher gameStatisticEventPublisher;
+    private final GameStatisticService gameStatisticService;
 
     public GameController(GameService gameService,
-                          ModelMapper modelMapper) {
+                          GameStatisticEventPublisher gameStatisticEventPublisher,
+                          GameStatisticService gameStatisticService) {
         this.gameService = gameService;
-        this.modelMapper = modelMapper;
+        this.gameStatisticEventPublisher = gameStatisticEventPublisher;
+        this.gameStatisticService = gameStatisticService;
     }
 
 
@@ -99,10 +103,8 @@ public class GameController {
 
     @GetMapping("/{id}/details")
     public String gameDetails(@PathVariable Long id, Model model) {
-        GameDetailsViewModel gameDetails;
-
-        gameDetails = gameService.getGameDetails(id);
-
+        GameDetailsViewModel gameDetails = gameService.getGameDetails(id);
+        gameStatisticEventPublisher.publishEvent(gameDetails.getName());
         model.addAttribute("gameDetails", gameDetails);
 
         return "games-details";
@@ -152,6 +154,14 @@ public class GameController {
         gameService.editGame(gameEditBindingModel);
         gameService.evictCacheAllGames();
         return "redirect:/games/all";
+    }
+
+    @GetMapping("/stats/visits")
+    public String gamesVisits(Model model){
+        List<GameStatisticServiceModel> gameVisits = gameStatisticService.getAll();
+        model.addAttribute("gameVisitsList", gameVisits);
+
+        return "games-stats-visits";
     }
 
 
