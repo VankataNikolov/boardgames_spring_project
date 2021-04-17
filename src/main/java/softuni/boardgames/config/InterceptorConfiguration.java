@@ -21,6 +21,6 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loggingInterceptor).addPathPatterns("/games/add");
-        registry.addInterceptor(helloInterceptor);
+        registry.addInterceptor(helloInterceptor).excludePathPatterns("/games/api");
     }
 }
