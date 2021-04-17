@@ -161,6 +161,11 @@ public class GameController {
         List<GameStatisticServiceModel> gameVisits = gameStatisticService.getAll();
         model.addAttribute("gameVisitsList", gameVisits);
 
+        int sumVisits = gameVisits.stream()
+                .mapToInt(GameStatisticServiceModel::getVisits)
+                .sum();
+
+        model.addAttribute("sumVisits", sumVisits);
         return "games-stats-visits";
     }
 

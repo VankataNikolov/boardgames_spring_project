@@ -48,6 +48,10 @@
             </div>
         </div>
 
+        <div th:if="${show}">
+            <h4 th:text="|Hi, ${username}|"></h4>
+        </div>
+
         <div class="collapse navbar-collapse d-flex justify-content-end px-4" id="navbarNav">
             <ul class="navbar-nav row">
                 <li class="nav-item col-md-3">

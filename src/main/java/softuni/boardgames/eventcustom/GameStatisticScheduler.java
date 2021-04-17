@@ -13,7 +13,7 @@ public class GameStatisticScheduler {
         this.gameStatisticService = gameStatisticService;
     }
 
-    @Scheduled(cron = "@weekly") //weekly "0 0 1 * * MON" | every minute "0 * * * * *"
+    @Scheduled(cron = "@weekly") //weekly "0 0 1 * * MON" | every minute "0 * * * * *" | every week "@weekly"
     public void onWeek() {
         gameStatisticService.clearStatistic();
     }

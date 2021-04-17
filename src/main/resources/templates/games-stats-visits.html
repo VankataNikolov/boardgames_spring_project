@@ -19,11 +19,15 @@
                     <th th:text="${game.visits}" scope="row">visits</th>
                     <td th:text="${game.name}">Game name</td>
                 </tr>
+                <tr>
+                    <th th:text="${sumVisits}" scope="row">visits</th>
+                    <td>ALL</td>
+                </tr>
                 </tbody>
             </table>
 
             <h2 th:if="${#lists.isEmpty(gameVisitsList)}">There are no statistic yet</h2>
-        <div>
+        </div>
     </div>
 
 </body>
